@@ -16,7 +16,6 @@ public class main {
 		NaiveBayesLearner bayes = new NaiveBayesLearner();
 		bayes.loadTrainingSet(trainingSetPath);
 		
-		
 		System.out.println("Uploading the 20 news group test set from: "+ testSetPath);
 		bayes.loadTestSet(testSetPath);
 		
@@ -29,5 +28,8 @@ public class main {
 	private static String getHomeDirectory() {
 		return System.getProperty("user.home");
 	}
+
+	
+	
 
 }

@@ -24,11 +24,7 @@ public abstract class BayesModel {
 	public void setTrainingSet(ArrayList<DocumentCategory> trainingSet) {	
 		this.trainingSet = trainingSet;		
 		fillVocab();
-		fillProbsOfCats();
-		
-		
-			
-		
+		fillProbsOfCats();		
 	}
 
 	private void fillVocab() {
@@ -54,6 +50,5 @@ public abstract class BayesModel {
 		
 	}
 
-	
 	public abstract String predict(Document doc);
 }

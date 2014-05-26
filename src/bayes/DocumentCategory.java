@@ -17,7 +17,6 @@ public class DocumentCategory {
 		probWordAppearsInCatDocument =  new HashMap<>();
 		categoryName = extractCategoryName(documentFolder);
 		
-		
 		//intialize documents
 		File[] documentFiles = documentFolder.listFiles();
 		for(int i =0; i< documentFiles.length; i++){

@@ -48,14 +48,14 @@ public class NaiveBayesLearner {
 
 	public void runBernoulli(){
 		BayesModel bMod = new BernoulliModel();
-		
+		/*
 		double startTime = System.currentTimeMillis();
 		System.out.println("Running the Multivariate Bernoulli model");
 		double predictionAccuracy = predictTestSet(bMod);
 		double elapsedTime = System.currentTimeMillis() - startTime; 
 		System.out.println("Bernoulli predicted at "+ predictionAccuracy);
 		System.out.println("Test took: "+ elapsedTime/1000.0 + " seconds");
-		
+		*/
 	}
 
 	
@@ -69,6 +69,7 @@ public class NaiveBayesLearner {
 		double numClassified = 0;
 		double numClassifiedCorrectly = 0;
 		
+		/*
 		for(DocumentCategory testCat: testCategories){
 			String correctCat = testCat.getCategoryName();
 			for(Document testDoc: testCat.getDocuments()){
@@ -83,6 +84,7 @@ public class NaiveBayesLearner {
 				numClassified++;
 			}
 		}
+		*/
 		//stuff with the confusion matrix
 		
 		

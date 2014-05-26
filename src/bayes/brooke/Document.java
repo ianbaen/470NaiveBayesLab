@@ -1,4 +1,4 @@
-package bayes;
+package bayes.brooke;
 
 import java.io.File;
 import java.io.FileNotFoundException;
