@@ -18,6 +18,13 @@ public class main {
 		System.out.println("Uploaded the test set.");
 		
 		System.out.println("Uploading the 20 news group training set from: "+ trainingSetPath);
+		bayes.loadTrainingSet(trainingSetPath, Type.MULTIVARIATE);//using multivariate works
+		System.out.println("Uploaded Baseline training set.");
+		System.out.println("Running Baseline");
+		bayes.runBaseline();
+		
+		
+		System.out.println("Uploading the 20 news group training set from: "+ trainingSetPath);
 		bayes.loadTrainingSet(trainingSetPath, Type.BERNOULLI);
 		System.out.println("Uploaded Bernoulli training set.");
 		

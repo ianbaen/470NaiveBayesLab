@@ -104,6 +104,21 @@ public class NaiveBayesLearner {
 		System.out.println(confMatrix);
 		return numClassifiedCorrectly/numClassified;
 	}
+
+	public void runBaseline() {
+		int highestCount = 0;
+		int totalCount = 0;
+		for(DocumentCategory cat:trainCategories){
+			int curCount = cat.numOfDocs;
+			totalCount+= curCount;
+			if(highestCount< curCount){
+				highestCount = curCount;
+			}
+		}
+		double prediction = (double) highestCount/(double) totalCount; 
+		System.out.println("Baseline predicts at "+ prediction);
+		
+	}
 	
 	
 
