@@ -15,9 +15,11 @@ public class main {
 		System.out.println("Uploading the 20 news group training set from: "+ trainingSetPath);
 		NaiveBayesLearner bayes = new NaiveBayesLearner();
 		bayes.loadTrainingSet(trainingSetPath);
+		System.out.println("Uploaded training set.");
 		
 		System.out.println("Uploading the 20 news group test set from: "+ testSetPath);
 		bayes.loadTestSet(testSetPath);
+		System.out.println("Uploaded the test set.");
 		
 		bayes.runBernoulli();
 //		a multinomial model, and

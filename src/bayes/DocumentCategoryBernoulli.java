@@ -1,20 +1,26 @@
-package bayes.brooke;
+package bayes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
-public class Document {
+public class DocumentCategoryBernoulli extends DocumentCategory{
 
+	public DocumentCategoryBernoulli(File documentFolder) {
+		super(documentFolder);
+	}
+
+	@Override
+	protected void trainDocument(File file) {
+		trainDocumentBernoulli(file);
+	}
 	
-	HashMap<String, Integer> wordCounts;
-	String category;
-	String id;
-	
-	public Document(String category, File file) {
-		this.category = category;
-		id = getFileId(file);
+	private void trainDocumentBernoulli(File file){
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(file);
@@ -25,15 +31,18 @@ public class Document {
 			System.exit(0);
 		}
 		
-		wordCounts = new HashMap<>();
+		//wordCounts = new HashMap<>();
 		
+		Set<String> found = new HashSet<String>();
+		found.addAll(Arrays.asList(commonWords));
+		
+		//goes though and updates word counts for each word, once per document.
 		while(scanner.hasNext()){
 			String key = scanner.next();
 			key = trim(key);
-			
-			if("".equals(key)){
+			if(found.contains(key) || key.equals(""))
 				continue;
-			}
+			
 			if(wordCounts.containsKey(key)){
 				int count = wordCounts.get(key);
 				count++;
@@ -43,11 +52,7 @@ public class Document {
 				wordCounts.put(key, 1);
 			}
 		}
-		
 	}
-
-	
-	
 	
 	/**This method does two things:
 	 * 1)make the key lower case to avoid "RanDomWOrds" not being the same as "rANDOMWord"
@@ -71,63 +76,35 @@ public class Document {
 		
 		return key;
 	}
-
-
-
-
-	private String getFileId(File file) {
-		String path = file.getAbsolutePath();
-		int seperatorIndex = path.lastIndexOf(File.separator);
-		return path.substring(seperatorIndex+1);
+	
+	@Override
+	protected double probWordGivenCategory(String word) {
+		if(wordCounts.containsKey(word))
+			return wordCounts.get(word)/(double)numOfDocs;
+		else
+			return 1;//smoothing
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
 	
-	
+
 	public HashMap<String, Integer> getWordCounts() {
 		return wordCounts;
 	}
-
-
-
 
 	public void setWordCounts(HashMap<String, Integer> wordCounts) {
 		this.wordCounts = wordCounts;
 	}
 
-
-
-
-	public String getCategory() {
-		return category;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
-
-
-
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-
-
-
-	public String getId() {
-		return id;
-	}
-
-
-
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-
-
 
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(category+": "+id);
+		sb.append(categoryName+" ");
 		for(String key: wordCounts.keySet()){
 			int count = wordCounts.get(key);
 			sb.append("\n\t"+ key +"  "+ count);
@@ -135,10 +112,9 @@ public class Document {
 		return sb.toString();
 	}
 
-
-
-
 	public boolean contains(String word) {
 		return wordCounts.containsKey(word);
 	}
+
+	
 }

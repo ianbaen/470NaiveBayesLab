@@ -12,8 +12,8 @@ public class Document {
 	String category;
 	String id;
 	
-	public Document(String category, File file) {
-		this.category = category;
+	public Document(File file) {
+		this.category = extractCategoryName(file);
 		id = getFileId(file);
 		Scanner scanner = null;
 		try {
@@ -46,6 +46,15 @@ public class Document {
 		
 	}
 
+	private String extractCategoryName(File documentFolder) {
+		String path = documentFolder.getAbsolutePath();
+		int seperatorIndex = path.lastIndexOf(File.separator);
+		
+		String catPath = path.substring(0, seperatorIndex);
+		seperatorIndex = catPath.lastIndexOf(File.separator);
+		
+		return catPath.substring(seperatorIndex+1);
+	}
 	
 	
 	
