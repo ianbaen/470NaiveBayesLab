@@ -7,6 +7,7 @@ public class NaiveBayesLearner {
 
 	ArrayList<DocumentCategory> trainCategories;
 	ArrayList<Document> testDocuments;
+	ConfusionMatrix confMatrix;
 	
 	/** Given the pat to the training set, uploads all the info from the folder
 	 * 
@@ -19,6 +20,8 @@ public class NaiveBayesLearner {
 	public void loadTrainingSet(String trainingSetPath, Type type){
 		trainCategories = new ArrayList<DocumentCategory>();
 		loadCategoryFromDirectory(trainingSetPath, trainCategories, type);
+		confMatrix = new ConfusionMatrix(trainCategories);
+		
 	}
 	
 	public void loadTestSet(String testSetPath) {
@@ -90,17 +93,15 @@ public class NaiveBayesLearner {
 				String predictedCat = model.predict(testDoc);
 				if(correctCat.equals(predictedCat)){
 					numClassifiedCorrectly++;
-					//System.out.println("good: "+predictedCat+ ": "+testDoc.getId());
 				}
-				else{
-					//System.out.println("bad. actual: "+correctCat+"  Predicted: "+ predictedCat  );
-				}
+				else{}
+				confMatrix.increment(correctCat, predictedCat);
 				numClassified++;
 			}
 		
 		//stuff with the confusion matrix
 		
-		
+		System.out.println(confMatrix);
 		return numClassifiedCorrectly/numClassified;
 	}
 	
