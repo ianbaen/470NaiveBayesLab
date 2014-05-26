@@ -14,8 +14,13 @@ public abstract class DocumentCategory {
 	String categoryName;
 	HashMap<String, Integer> wordCounts;
 	int numOfDocs;
+	int numOfWords;
+	Set<String> commonWords;
 	
 	public DocumentCategory(File documentFolder) {
+		commonWords = new HashSet<String>();
+		commonWords.addAll(Arrays.asList(common));
+		
 		wordCounts = new HashMap<String, Integer>();
 		categoryName = extractCategoryName(documentFolder);
 		
@@ -23,9 +28,17 @@ public abstract class DocumentCategory {
 		File[] documentFiles = documentFolder.listFiles();
 		
 		numOfDocs = documentFiles.length;
+		numOfWords = 0;
 		for(int i =0; i< documentFiles.length; i++){
 			trainDocument(documentFiles[i]);
 		}
+	}
+	
+	public static DocumentCategory makeNew(Type type, File f){
+		if(type.equals(Type.BERNOULLI))
+			return new DocumentCategoryBernoulli(f);
+		else
+			return new DocumentCategoryMultivariate(f);
 	}
 
 	protected abstract void trainDocument(File file);
@@ -108,7 +121,7 @@ public abstract class DocumentCategory {
 		return wordCounts.containsKey(word);
 	}
 	
-	final static String[] commonWords = {"the","be","to","of","and",
+	final static String[] common = {"the","be","to","of","and",
 											"a","in", "that","have",
 											"I","it","for","not","on","with",
 											"he","as","you","do","at",

@@ -16,16 +16,16 @@ public class NaiveBayesLearner {
 		testDocuments = new ArrayList<Document>();
 	}
 
-	public void loadTrainingSet(String trainingSetPath) {
-		loadCategoryFromDirectory(trainingSetPath, trainCategories);
+	public void loadTrainingSet(String trainingSetPath, Type type){
+		trainCategories = new ArrayList<DocumentCategory>();
+		loadCategoryFromDirectory(trainingSetPath, trainCategories, type);
 	}
-	
 	
 	public void loadTestSet(String testSetPath) {
 		loadDocumentFromDirectory(testSetPath, testDocuments);
 	}
 	
-	public void loadCategoryFromDirectory(String path, ArrayList<DocumentCategory> cat){
+	public void loadCategoryFromDirectory(String path, ArrayList<DocumentCategory> cat, Type type){
 		File folder = new File(path);
 		if(!folder.exists()){
 			System.out.println("It is saying that:"+ path+" does not exist. Is the path name correct?");
@@ -36,7 +36,7 @@ public class NaiveBayesLearner {
 		File[] subFolders = folder.listFiles();
 		
 		for(int i =0; i< subFolders.length; i++){
-			DocumentCategory temp = new DocumentCategoryBernoulli(subFolders[i]);
+			DocumentCategory temp = DocumentCategory.makeNew(type, subFolders[i]);
 			cat.add(temp);
 		}
 	}//end loadFromDirectory()
@@ -61,14 +61,15 @@ public class NaiveBayesLearner {
 		}
 	}//end loadFromDirectory()
 
-	public void runBernoulli(){
+
+	public void runPredictionSet(){
 		BayesModel bMod = new BayesModel();
 		
 		double startTime = System.currentTimeMillis();
-		System.out.println("Running the Multivariate Bernoulli model");
+		System.out.println("Running the prediction set");
 		double predictionAccuracy = predictTestSet(bMod);
 		double elapsedTime = System.currentTimeMillis() - startTime; 
-		System.out.println("Bernoulli predicted at "+ predictionAccuracy);
+		System.out.println("Predicted at "+ predictionAccuracy);
 		System.out.println("Test took: "+ elapsedTime/1000.0 + " seconds");
 	
 	}
@@ -89,31 +90,14 @@ public class NaiveBayesLearner {
 				String predictedCat = model.predict(testDoc);
 				if(correctCat.equals(predictedCat)){
 					numClassifiedCorrectly++;
-					System.out.println("good: "+predictedCat+ ": "+testDoc.getId());
+					//System.out.println("good: "+predictedCat+ ": "+testDoc.getId());
 				}
 				else{
-					System.out.println("bad. actual: "+correctCat+"  Predicted: "+ predictedCat  );
+					//System.out.println("bad. actual: "+correctCat+"  Predicted: "+ predictedCat  );
 				}
 				numClassified++;
 			}
 		
-		
-		/*
-		for(DocumentCategory testCat: testCategories){
-			String correctCat = testCat.getCategoryName();
-			for(Document testDoc: testCat.getDocuments()){
-				String predictedCat = model.predict(testDoc);
-				if(correctCat.equals(predictedCat)){
-					numClassifiedCorrectly++;
-					System.out.println("good: "+predictedCat+ ": "+testDoc.getId());
-				}
-				else{
-					System.out.println("bad. actual: "+correctCat+"  Predicted: "+ predictedCat  );
-				}
-				numClassified++;
-			}
-		}
-		*/
 		//stuff with the confusion matrix
 		
 		

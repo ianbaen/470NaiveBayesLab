@@ -11,17 +11,25 @@ public class main {
 		String trainingSetPath = pathTo20News + File.separator + "20news-bydate-train";
 		String testSetPath = pathTo20News + File.separator + "20news-bydate-test";
 		
-		
-		System.out.println("Uploading the 20 news group training set from: "+ trainingSetPath);
 		NaiveBayesLearner bayes = new NaiveBayesLearner();
-		bayes.loadTrainingSet(trainingSetPath);
-		System.out.println("Uploaded training set.");
 		
 		System.out.println("Uploading the 20 news group test set from: "+ testSetPath);
 		bayes.loadTestSet(testSetPath);
 		System.out.println("Uploaded the test set.");
 		
-		bayes.runBernoulli();
+		System.out.println("Uploading the 20 news group training set from: "+ trainingSetPath);
+		bayes.loadTrainingSet(trainingSetPath, Type.BERNOULLI);
+		System.out.println("Uploaded Bernoulli training set.");
+		
+		System.out.println("Running Bernoulli");
+		bayes.runPredictionSet();
+		
+		System.out.println("Uploading the 20 news group training set from: "+ trainingSetPath);
+		bayes.loadTrainingSet(trainingSetPath, Type.MULTIVARIATE);
+		System.out.println("Uploaded Multivariate training set.");
+		System.out.println("Running Multivariate");
+		bayes.runPredictionSet();
+		
 //		a multinomial model, and
 //		a smoothed model.
 		

@@ -9,17 +9,19 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-public class DocumentCategoryBernoulli extends DocumentCategory{
+public class DocumentCategoryMultivariate extends DocumentCategory{
 
-	public DocumentCategoryBernoulli(File documentFolder) {
+	public DocumentCategoryMultivariate(File documentFolder) {
 		super(documentFolder);
 	}
+
 	@Override
 	protected void trainDocument(File file) {
-		trainDocumentBernoulli(file);
+		trainDocumentMultivariate(file);
 	}
 	
-	private void trainDocumentBernoulli(File file){
+	
+	private void trainDocumentMultivariate(File file){
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(file);
@@ -29,18 +31,14 @@ public class DocumentCategoryBernoulli extends DocumentCategory{
 			e.printStackTrace();
 			System.exit(0);
 		}
-		
-		//wordCounts = new HashMap<>();
-		
-		//goes though and updates word counts for each word, once per document.
+		//goes though and updates word counts for each word, multiple per document.
 		while(scanner.hasNext()){
 			String key = scanner.next();
 			key = trim(key);
 			if(commonWords.contains(key) || key.equals(""))
 				continue;
 			
-			commonWords.add(key);
-			
+			numOfWords++;
 			if(wordCounts.containsKey(key)){
 				int count = wordCounts.get(key);
 				count++;
@@ -55,7 +53,7 @@ public class DocumentCategoryBernoulli extends DocumentCategory{
 	@Override
 	protected double probWordGivenCategory(String word) {
 		if(wordCounts.containsKey(word))
-			return wordCounts.get(word)/(double)numOfDocs;
+			return wordCounts.get(word)/(double)numOfWords;
 		else
 			return .00000001;//smoothing
 	}

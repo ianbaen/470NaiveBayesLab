@@ -9,7 +9,6 @@ public class BayesModel {
 	public BayesModel(){
 		trainingSet = null;
 		totalDocs = 0;
-		
 	}
 	
 	public void setTrainingSet(ArrayList<DocumentCategory> trainingSet) {	
@@ -17,6 +16,7 @@ public class BayesModel {
 		for(DocumentCategory d : trainingSet)
 			totalDocs += d.getTotalDocs();		
 	}
+	
 	public String predict(Document doc){
 		
 		String bestCat = "";
@@ -33,7 +33,7 @@ public class BayesModel {
 			}
 			
 		}
-		System.out.println("document probability: "+highestProb + "best category:" + bestCat);
+		//System.out.println("document probability: "+highestProb + "best category:" + bestCat);
 		return bestCat;
 		
 	}
